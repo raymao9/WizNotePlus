@@ -6,6 +6,7 @@ on:
       - develop
       - release/*
       - feat/*
+      - misc/*
     tags:
       - v2.*
 
