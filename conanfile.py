@@ -12,6 +12,7 @@ from conans.tools import Version
 from conans.errors import ConanInvalidConfiguration
 
 
+
 def qmake_query(prop, prefix=None):
     value = subprocess.check_output(
         ["qmake" if not prefix else os.path.join(prefix, "qmake"),
