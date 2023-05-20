@@ -77,3 +77,15 @@ Windows 平台下为 `WizNotePlus-windows.zip` ，请将压缩包内容解压到
 - QuaZIP (L-GPL V2.1)
 - Cryptopp (Boost Software License 1.0)
 - appdmg (MIT License)
+
+## 分支
+
+此分支纯粹学习用途，路过的同学建议下载原项目释出的版本。
+
+构建环境：
+
+- MacOS 11.5.2
+- Xcode 13.2.1 (13C100)
+- Qt 5.14.0
+- Conan 1.60.0
+- Cmake 3.26.3
