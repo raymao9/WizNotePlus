@@ -9,15 +9,11 @@
 
 #define PREDEFINED_TRASH            QObject::tr("Trash")
 #define PREDEFINED_UNCLASSIFIED     QObject::tr("Unclassified")
-
 #define CATEGORY_OWN_GROUPS      QObject::tr("My Groups")
 #define CATEGORY_OTHER_GROUPS      QObject::tr("Other Groups")
-
-
 #define WIZ_CATEGORY_SECTION_GENERAL QObject::tr("General")
 #define WIZ_CATEGORY_SECTION_PERSONAL QObject::tr("Personal Notes")
 #define WIZ_CATEGORY_SECTION_GROUPS QObject::tr("Team Notes")
-
 #define WIZ_CATEGORY_SHOTCUT_PLACEHOLD QObject::tr("Drag note form note list")
 
 const int nNumberButtonHeight = 14;

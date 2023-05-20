@@ -1,4 +1,4 @@
-﻿#include "WizCategoryView.h"
+#include "WizCategoryView.h"
 
 #include <QHeaderView>
 #include <QAction>
@@ -41,7 +41,6 @@
 #include "WizFileImporter.h"
 #include "WizOEMSettings.h"
 #include "widgets/FileExportWizard.h"
-
 
 #define CATEGORY_GENERAL    QObject::tr("General")
 #define CATEGORY_TEAM_GROUPS QObject::tr("Team Notes")
