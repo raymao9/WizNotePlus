@@ -1,9 +1,9 @@
-﻿#ifndef WIZDEF_H
+#ifndef WIZDEF_H
 #define WIZDEF_H
 
 #include <QtGlobal>
 
-#define WIZ_CLIENT_VERSION  "2.11.3"
+#define WIZ_CLIENT_VERSION  "2.11.3.1"
 // Development stage could be "alpha", "beta", "rc" and "stable"
 #define WIZ_DEV_STAGE "stable.0"
 
