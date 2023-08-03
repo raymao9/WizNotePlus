@@ -6172,7 +6172,7 @@ w: %3  h: %4</translation>
     <message>
         <location filename="../src/gui/documentviewer/WizTitleBar.cpp" line="208"/>
         <source>Add comments  %1</source>
-        <translation>備註  %1</translation>
+        <translation>新增留言  %1</translation>
     </message>
     <message>
         <location filename="../src/gui/documentviewer/WizTitleBar.cpp" line="217"/>
