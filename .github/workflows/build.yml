@@ -7,6 +7,7 @@ on:
       - release/*
       - feat/*
       - hotfix/*
+      - me-dev
     tags:
       - v2.*
 
