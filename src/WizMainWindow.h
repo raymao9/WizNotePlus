@@ -278,6 +278,7 @@ public:
 signals:
     void documentsViewTypeChanged(int);
     void documentsSortTypeChanged(int);
+    void pluginPopupRequest(QAction *ac, const QPoint &pos);
 
 public Q_SLOTS:
     void on_actionExit_triggered();
@@ -296,6 +297,7 @@ public Q_SLOTS:
     void on_actionSearch_triggered();
     void on_actionResetSearch_triggered();
     void on_actionDownloadManager_triggered();
+    void on_actionJSConsole_triggered();
     void on_actionFindReplace_triggered();
     void on_actionSaveAsPDF_triggered();
     void on_actionSaveAsHtml_triggered();
