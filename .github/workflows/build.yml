@@ -72,6 +72,14 @@ jobs:
         with:
           name: Linux_Dist
           path: _build/package/dist
+      - name: Upload to webdav
+        if: github.repository == 'altairwei/WizNotePlus'
+        run: |
+          find _build/package/dist -type f -name "WizNotePlus-*" | while read x; do
+            filename=$(basename $x)
+            echo "Uploading $filename"
+            curl --basic --user "${{ secrets.WEBDAV }}" -T $x "https://dav.jianguoyun.com/dav/WizNotePlus/testing/$filename";
+          done
 
   build_windows:
     name: Windows
@@ -122,6 +130,17 @@ jobs:
         with:
           name: Windows_Dist
           path: _build/package/dist
+      - name: Upload to webdav
+        if: github.repository == 'altairwei/WizNotePlus'
+        shell: powershell
+        run: |
+          Remove-Item alias:curl
+          $artifacts = Get-ChildItem -Path _build/package/dist -Include WizNotePlus-* -File -Recurse
+          foreach ($x in $artifacts){
+            $filename = Split-Path $x -leaf
+            Write-Host "Uploading $filename"
+            curl --basic --user "${{ secrets.WEBDAV }}" -T $x "https://dav.jianguoyun.com/dav/WizNotePlus/testing/$filename";
+          }
 
   build_macos:
     name: MacOS
@@ -174,6 +193,14 @@ jobs:
         with:
           name: MacOS_Dist
           path: _build/package/dist
+      - name: Upload to webdav
+        if: github.repository == 'altairwei/WizNotePlus'
+        run: |
+          find _build/package/dist -type f -name "WizNotePlus-*" | while read x; do
+            filename=$(basename $x)
+            echo "Uploading $filename"
+            curl --basic --user "${{ secrets.WEBDAV }}" -T $x "https://dav.jianguoyun.com/dav/WizNotePlus/testing/$filename";
+          done
 
   release:
     needs: [build_linux, build_windows, build_macos]
@@ -223,3 +250,13 @@ jobs:
           bodyFile: ${{ steps.release_notes.outputs.content_file }}
           draft: true
           prerelease: true
+      - name: Upload to webdav
+        if: github.repository == 'altairwei/WizNotePlus'
+        run: |
+          version=$(printf '${{ github.ref }}' | sed -E 's#refs/tags/v(.*)#\1#')
+          curl --basic --user "${{ secrets.WEBDAV }}" -X MKCOL "https://dav.jianguoyun.com/dav/WizNotePlus/stable/v$version"
+          find artifacts -type f -name "WizNotePlus-*" | while read x; do
+            filename=$(basename $x)
+            echo "Uploading $filename"
+            curl --basic --user "${{ secrets.WEBDAV }}" -T $x "https://dav.jianguoyun.com/dav/WizNotePlus/stable/v$version/$filename";
+          done
