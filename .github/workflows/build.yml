@@ -139,12 +139,12 @@ jobs:
 
   build_macos:
     name: MacOS
-    runs-on: macos-14
+    runs-on: macos-latest
     env:
       QT_INSTALL_TARGET_ARCH: clang_64
       QT_INSTALL_TARGET_DIR_PREFIX: /Applications
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
         with:
           python-version: '3.8'
