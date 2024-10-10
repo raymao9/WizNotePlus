@@ -166,7 +166,7 @@ jobs:
           conan profile new default --detect
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v4
+        uses: actions/cache@v2
         with:
           path: ${{ env.QT_INSTALL_TARGET_DIR_PREFIX }}/Qt
           key: QtCache-MacOS-${{ env.QT_VERSION }}
