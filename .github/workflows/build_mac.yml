@@ -1,0 +1,91 @@
+name: build
+on:
+  push:
+    branches:
+      - me
+    tags:
+      - v2.*
+
+env:
+  QT_VERSION_MAJOR: 5
+  QT_VERSION_MINOR: 14
+  QT_VERSION_PATCH: 2
+  QT_VERSION: 5.14.2
+
+jobs:
+
+  build_macos:
+    name: MacOS
+    runs-on: self-hosted
+    env:
+      QT_INSTALL_TARGET_ARCH: clang_64
+      QT_INSTALL_TARGET_DIR_PREFIX: /Users/nanamao
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build project
+        env:
+          QT_INSTALL_PREFIX: ${{ env.QT_INSTALL_TARGET_DIR_PREFIX }}/Qt/${{ env.QT_VERSION }}/${{ env.QT_INSTALL_TARGET_ARCH }}
+        run: |
+          mkdir -p _build
+          ./.ci/build.sh $(pwd) $(pwd)/_build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MacOS_Dist
+          path: _build/package/dist
+      - name: Upload to webdav
+        if: github.repository == 'altairwei/WizNotePlus'
+        run: |
+          find _build/package/dist -type f -name "WizNotePlus-*" | while read x; do
+            filename=$(basename $x)
+            echo "Uploading $filename"
+            curl --basic --user "${{ secrets.WEBDAV }}" -T $x "https://dav.jianguoyun.com/dav/WizNotePlus/testing/$filename";
+          done
+
+  release:
+    needs: [build_linux, build_windows, build_macos]
+    runs-on: ubuntu-latest
+    if: contains(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y -qq --no-install-recommends curl
+      - name: Download pre-built packages for MacOS
+        uses: actions/download-artifact@v4.1.7
+        with:
+          name: MacOS_Dist
+          path: artifacts
+      - name: Create Release Notes
+        id: release_notes
+        run: |
+          version=$(printf '${{ github.ref }}' | sed -E 's#refs/tags/v(.*)#\1#')
+          notes_zh="dist/changes-${version}-zh-CN.md"
+          [[ -f "${notes_zh}" ]] || { echo >&2 "release notes is required."; exit 1; }
+          notes_en="dist/changes-${version}-en-US.md"
+          [[ -f "${notes_en}" ]] || { echo >&2 "release notes is required."; exit 1; }
+          content=$(cat ${notes_zh})
+          content="${content}\n\n---\n\n$(cat ${notes_en})"
+          printf "${content}\n" > dist/changes-${version}.md
+          echo "::set-output name=version::${version}"
+          echo "::set-output name=content_file::dist/changes-${version}.md"
+      - name: Create Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          name: WizNotePlus v${{ steps.release_notes.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "artifacts/*"
+          bodyFile: ${{ steps.release_notes.outputs.content_file }}
+          draft: true
+          prerelease: true
+      - name: Upload to webdav
+        if: github.repository == 'altairwei/WizNotePlus'
+        run: |
+          version=$(printf '${{ github.ref }}' | sed -E 's#refs/tags/v(.*)#\1#')
+          curl --basic --user "${{ secrets.WEBDAV }}" -X MKCOL "https://dav.jianguoyun.com/dav/WizNotePlus/stable/v$version"
+          find artifacts -type f -name "WizNotePlus-*" | while read x; do
+            filename=$(basename $x)
+            echo "Uploading $filename"
+            curl --basic --user "${{ secrets.WEBDAV }}" -T $x "https://dav.jianguoyun.com/dav/WizNotePlus/stable/v$version/$filename";
+          done
