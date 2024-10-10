@@ -139,7 +139,7 @@ jobs:
 
   build_macos:
     name: MacOS
-    runs-on: macos-12
+    runs-on: self-hosted
     env:
       QT_INSTALL_TARGET_ARCH: clang_64
       QT_INSTALL_TARGET_DIR_PREFIX: /Applications
