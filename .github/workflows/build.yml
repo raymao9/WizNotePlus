@@ -63,7 +63,7 @@ jobs:
         run: |
           mkdir -p _build
           ./.ci/build.sh $(pwd) $(pwd)/_build
-      - uses: actions/upload-artifact@v4.1.7
+      - uses: actions/upload-artifact@v4.4.3
         with:
           name: Linux_Dist
           path: _build/package/dist
@@ -121,7 +121,7 @@ jobs:
         run: |
           mkdir -Force _build
           .\.ci\build.ps1 "$PWD" "$PWD\_build" "github actions"
-      - uses: actions/upload-artifact@v4.1.7
+      - uses: actions/upload-artifact@v4.4.3
         with:
           name: Windows_Dist
           path: _build/package/dist
@@ -184,7 +184,7 @@ jobs:
         run: |
           mkdir -p _build
           ./.ci/build.sh $(pwd) $(pwd)/_build
-      - uses: actions/upload-artifact@v4.1.7
+      - uses: actions/upload-artifact@v4.4.3
         with:
           name: MacOS_Dist
           path: _build/package/dist
