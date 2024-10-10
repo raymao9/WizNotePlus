@@ -63,7 +63,7 @@ jobs:
         run: |
           mkdir -p _build
           ./.ci/build.sh $(pwd) $(pwd)/_build
-      - uses: actions/upload-artifact@v4.4.3
+      - uses: actions/upload-artifact@v4
         with:
           name: Linux_Dist
           path: _build/package/dist
@@ -121,7 +121,7 @@ jobs:
         run: |
           mkdir -Force _build
           .\.ci\build.ps1 "$PWD" "$PWD\_build" "github actions"
-      - uses: actions/upload-artifact@v4.4.3
+      - uses: actions/upload-artifact@v4
         with:
           name: Windows_Dist
           path: _build/package/dist
@@ -166,7 +166,7 @@ jobs:
           conan profile new default --detect
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ${{ env.QT_INSTALL_TARGET_DIR_PREFIX }}/Qt
           key: QtCache-MacOS-${{ env.QT_VERSION }}
@@ -186,7 +186,7 @@ jobs:
         run: |
           mkdir -p _build
           ./.ci/build.sh $(pwd) $(pwd)/_build
-      - uses: actions/upload-artifact@v4.4.3
+      - uses: actions/upload-artifact@v4
         with:
           name: MacOS_Dist
           path: _build/package/dist
