@@ -42,7 +42,7 @@ jobs:
           done
 
   release:
-    needs: [build_linux, build_windows, build_macos]
+    needs: [build_macos]
     runs-on: ubuntu-latest
     if: contains(github.ref, 'refs/tags/v')
     steps:
